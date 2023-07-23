@@ -127,9 +127,9 @@ typedef union {
     bool tategaki :1;
     bool kouchi_shift :1;
   };
-} user_config_t;
+} ng_user_config_t;
 
-user_config_t naginata_config;
+ng_user_config_t naginata_config;
 
 // #define NG_SAFE_RANGE SAFE_RANGE + 42
 

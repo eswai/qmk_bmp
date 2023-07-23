@@ -9,6 +9,7 @@
 #include "cli.h"
 #include "dynamic_config.h"
 #include "quantizer_mouse.h"
+#include "naginata.h"
 
 user_config_t user_config;
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {{{KC_NO}}};
@@ -30,6 +31,28 @@ void keyboard_pre_init_user(void) {
 void keyboard_post_init_user(void) {
     user_config.raw = eeconfig_read_user();
     set_mouse_gesture_threshold(get_mouse_gesture_threshold());
+
+    // 薙刀式
+    uint16_t ngonkeys[] = {KC_H, KC_J};
+    uint16_t ngoffkeys[] = {KC_F, KC_G};
+    set_naginata(ngonkeys, ngoffkeys);
+    // 薙刀式
+
+    wait_ms(400);
+    switch (detected_host_os()) {
+        case OS_WINDOWS:
+        switchOS(NG_WIN);
+        break;
+        case OS_MACOS:
+        case OS_IOS:
+        switchOS(NG_MAC);
+        break;
+        case OS_LINUX:
+        switchOS(NG_LINUX);
+        break;
+        default:
+        switchOS(NG_WIN);
+    }
 }
 
 void housekeeping_task_user(void) {
@@ -81,6 +104,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 break;
         }
     }
+
+    // 薙刀式
+    if (!process_naginata(keycode, record))
+        return false;
+    // 薙刀式
 
     return cont;
 }
