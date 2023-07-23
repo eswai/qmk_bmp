@@ -35,7 +35,7 @@ subcommands = [
     'qmk.cli.chibios.confmigrate',
     'qmk.cli.clean',
     'qmk.cli.compile',
-    'qmk.cli.console',
+    # 'qmk.cli.console',
     'qmk.cli.docs',
     'qmk.cli.doctor',
     'qmk.cli.fileformat',
