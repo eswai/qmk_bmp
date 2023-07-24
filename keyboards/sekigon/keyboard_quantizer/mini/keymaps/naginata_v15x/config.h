@@ -20,3 +20,5 @@
 #define LEADER_TIMEOUT 5000
 
 #define SERIAL_NUMBER "keyboard-quantizer-mini-1"
+
+#define USB_MAX_POWER_CONSUMPTION 100
