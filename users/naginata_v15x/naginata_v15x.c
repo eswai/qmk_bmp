@@ -1204,8 +1204,8 @@ bool exec_henshu(uint32_t keycomb) {
       henshu_done = true;
       return true;
       break;
-    case B_J|B_K|B_W: // 《》{改行}{↑}
-      ng_send_unicode_string_P(PSTR("《》"));
+    case B_J|B_K|B_W: // 『』{改行}{↑}
+      ng_send_unicode_string_P(PSTR("『』"));
       ng_up(1);
       henshu_done = true;
       return true;
@@ -1242,14 +1242,14 @@ bool exec_henshu(uint32_t keycomb) {
       henshu_done = true;
       return true;
       break;
-    case B_J|B_K|B_G: // 『』{改行}{↑}
-      ng_send_unicode_string_P(PSTR("『』"));
+    case B_J|B_K|B_G: // 《》{改行}{↑}
+      ng_send_unicode_string_P(PSTR("《》"));
       ng_up(1);
       henshu_done = true;
       return true;
       break;
-    case B_J|B_K|B_Z: // ││{改行}
-      ng_send_unicode_string_P(PSTR("││"));
+    case B_J|B_K|B_Z: // ――{改行}
+      ng_send_unicode_string_P(PSTR("――"));
       henshu_done = true;
       return true;
       break;
@@ -1270,8 +1270,9 @@ bool exec_henshu(uint32_t keycomb) {
       henshu_done = true;
       return true;
       break;
-    case B_J|B_K|B_B: // ／{改行}
-      ng_send_unicode_string_P(PSTR("／"));
+    case B_J|B_K|B_B: // {改行}{←}
+      tap_code(KC_ENT);
+      ng_left(1);
       henshu_done = true;
       return true;
       break;
@@ -1366,20 +1367,28 @@ bool exec_henshu(uint32_t keycomb) {
       break;
     #endif
     #ifndef NG_NO_HENSHU2
-    case B_M|B_COMM|B_Q: // {Home}{Del 3}{BS}{←}
+    case B_M|B_COMM|B_Q: // {Home}{→}{End}{Del 4}{←}
       ng_home();
-      tap_code(KC_DEL);tap_code(KC_DEL);tap_code(KC_DEL);
-      tap_code(KC_BSPC);
+      ng_right(1);
+      ng_end();
+      tap_code(KC_DEL);
+      tap_code(KC_DEL);
+      tap_code(KC_DEL);
+      tap_code(KC_DEL);
       ng_left(1);
       henshu_done = true;
       return true;
       break;
-    case B_M|B_COMM|B_W: // ^x｜{改行}^v《》{改行}{↑}
+    case B_M|B_COMM|B_W: // ^x『^v』{改行}{Space}+{↑}^x
       ng_cut();
-      ng_send_unicode_string_P(PSTR("｜"));
+      ng_send_unicode_string_P(PSTR("『"));
       ng_paste();
-      ng_send_unicode_string_P(PSTR("《》"));
+      ng_send_unicode_string_P(PSTR("』"));
+      tap_code(KC_SPC);
+      register_code(KC_LSFT);
       ng_up(1);
+      unregister_code(KC_LSFT);
+      ng_cut();
       henshu_done = true;
       return true;
       break;
@@ -1405,10 +1414,12 @@ bool exec_henshu(uint32_t keycomb) {
       henshu_done = true;
       return true;
       break;
-    case B_M|B_COMM|B_A: // {Home}{Del 1}{BS}{←}
+    case B_M|B_COMM|B_A: // {Home}{→}{End}{Del 2}{←}
       ng_home();
+      ng_right(1);
+      ng_end();
       tap_code(KC_DEL);
-      tap_code(KC_BSPC);
+      tap_code(KC_DEL);
       ng_left(1);
       henshu_done = true;
       return true;
@@ -1447,11 +1458,12 @@ bool exec_henshu(uint32_t keycomb) {
       henshu_done = true;
       return true;
       break;
-    case B_M|B_COMM|B_G: // ^x『^v』{改行}{Space}+{↑}^x
+    case B_M|B_COMM|B_G: // ^x｜{改行}^v《》{改行}{↑}{Space}+{↑}^x
       ng_cut();
-      ng_send_unicode_string_P(PSTR("『"));
+      ng_send_unicode_string_P(PSTR("｜"));
       ng_paste();
-      ng_send_unicode_string_P(PSTR("』"));
+      ng_send_unicode_string_P(PSTR("《》"));
+      ng_up(1);
       tap_code(KC_SPC);
       register_code(KC_LSFT);
       ng_up(1);
@@ -1461,7 +1473,8 @@ bool exec_henshu(uint32_t keycomb) {
       return true;
       break;
     case B_M|B_COMM|B_Z: // 　　　×　　　×　　　×{改行 2}
-      ng_send_unicode_string_P(PSTR("　　　×　　　×　　　×")); // 33bytes + eos
+      ng_send_unicode_string_P(PSTR("　　　×　　　×　　　×"));
+      tap_code(KC_ENT);
       tap_code(KC_ENT);
       henshu_done = true;
       return true;
@@ -1479,10 +1492,8 @@ bool exec_henshu(uint32_t keycomb) {
       henshu_done = true;
       return true;
       break;
-    case B_M|B_COMM|B_C: // {改行}{End}{改行}}
-      tap_code(KC_ENT);
-      ng_end();
-      tap_code(KC_ENT);
+    case B_M|B_COMM|B_C: // ／{改行}
+      ng_send_unicode_string_P(PSTR("／"));
       henshu_done = true;
       return true;
       break;
@@ -1495,9 +1506,11 @@ bool exec_henshu(uint32_t keycomb) {
       henshu_done = true;
       return true;
       break;
-    case B_M|B_COMM|B_B: // {End}{改行}
+    case B_M|B_COMM|B_B: // {改行}{End}{改行}{Space}
+      tap_code(KC_ENT);
       ng_end();
       tap_code(KC_ENT);
+      tap_code(KC_SPC);
       henshu_done = true;
       return true;
       break;
@@ -1513,8 +1526,8 @@ bool exec_henshu(uint32_t keycomb) {
       henshu_done = true;
       return true;
       break;
-    case B_C|B_V|B_I: // ^z
-      ng_undo();
+    case B_C|B_V|B_I: // ^v
+      ng_paste();
       henshu_done = true;
       return true;
       break;
@@ -1523,8 +1536,8 @@ bool exec_henshu(uint32_t keycomb) {
       henshu_done = true;
       return true;
       break;
-    case B_C|B_V|B_P: // ^v
-      ng_paste();
+    case B_C|B_V|B_P: // ^z
+      ng_undo();
       henshu_done = true;
       return true;
       break;
@@ -1533,8 +1546,8 @@ bool exec_henshu(uint32_t keycomb) {
       henshu_done = true;
       return true;
       break;
-    case B_C|B_V|B_J: // {→ 5}
-      ng_right(5);
+    case B_C|B_V|B_J: // {→}
+      ng_right(1);
       henshu_done = true;
       return true;
       break;
@@ -1566,8 +1579,8 @@ bool exec_henshu(uint32_t keycomb) {
       henshu_done = true;
       return true;
       break;
-    case B_C|B_V|B_M: // {← 5}
-      ng_left(5);
+    case B_C|B_V|B_M: // {←}
+      ng_left(1);
       henshu_done = true;
       return true;
       break;
@@ -1615,6 +1628,16 @@ bool exec_henshu(uint32_t keycomb) {
       henshu_done = true;
       return true;
       break;
+    case B_U|B_I|B_A: // 三神
+      ng_send_unicode_string_P(PSTR("三神"));
+      henshu_done = true;
+      return true;
+      break;
+    case B_U|B_I|B_S: // 峯
+      ng_send_unicode_string_P(PSTR("峯"));
+      henshu_done = true;
+      return true;
+      break;
     case B_U|B_I|B_D: // 小鴉
       ng_send_unicode_string_P(PSTR("小鴉"));
       henshu_done = true;
@@ -1622,11 +1645,6 @@ bool exec_henshu(uint32_t keycomb) {
       break;
     case B_U|B_I|B_F: // 光太郎
       ng_send_unicode_string_P(PSTR("光太郎"));
-      henshu_done = true;
-      return true;
-      break;
-    case B_U|B_I|B_G: // 三神
-      ng_send_unicode_string_P(PSTR("三神"));
       henshu_done = true;
       return true;
       break;
@@ -1647,11 +1665,6 @@ bool exec_henshu(uint32_t keycomb) {
       break;
     case B_U|B_I|B_V: // 心の闇
       ng_send_unicode_string_P(PSTR("心の闇"));
-      henshu_done = true;
-      return true;
-      break;
-    case B_U|B_I|B_B: // 峯
-      ng_send_unicode_string_P(PSTR("峯"));
       henshu_done = true;
       return true;
       break;
@@ -1700,11 +1713,16 @@ bool exec_henshu(uint32_t keycomb) {
       henshu_done = true;
       return true;
       break;
+    case B_E|B_R|B_M: // 八幡
+      ng_send_unicode_string_P(PSTR("八幡"));
+      henshu_done = true;
+      return true;
+      break;
     case B_E|B_R|B_DOT: // 霊槍
       ng_send_unicode_string_P(PSTR("霊槍"));
       henshu_done = true;
       return true;
-      break;        
+      break;
     #endif  
   }
 

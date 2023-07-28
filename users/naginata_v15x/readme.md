@@ -1,6 +1,7 @@
 # 薙刀式カナ配列キーマップ
 
-薙刀式かな入力の新しい変換ロジックの開発です。
+Keyboard Quantizer Miniで薙刀式を使うためのコードです。
+https://github.com/eswai/qmk_firmware/tree/master/users/naginata_v15x を修正したもの。
 
-[QMK薙刀式の進化](https://eswai.hatenablog.com/entry/2023/06/26/083617)の実装です。
-
+Keyboard Quantizer Mini - のぎけす屋 - BOOTH
+https://nogikes.booth.pm/items/4823647
