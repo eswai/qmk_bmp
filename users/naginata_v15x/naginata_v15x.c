@@ -488,13 +488,13 @@ void switchOS(uint8_t os) {
 void ng_set_unicode_mode(uint8_t os) {
   switch (os) {
     case NG_WIN:
-      // set_unicode_input_mode(UNICODE_MODE_WINCOMPOSE);
+      set_unicode_input_mode(UNICODE_MODE_WINCOMPOSE);
       break;
     case NG_MAC:
-      // set_unicode_input_mode(UNICODE_MODE_MACOS);
+      set_unicode_input_mode(UNICODE_MODE_MACOS);
       break;
     case NG_LINUX:
-      // set_unicode_input_mode(UNICODE_MODE_LINUX);
+      set_unicode_input_mode(UNICODE_MODE_LINUX);
       break;
   }
 }
@@ -545,40 +545,40 @@ void ng_show_os(void) {
 
 #define MAX_STRLEN 40
 void ng_send_unicode_string_P(const char *pstr) {
-  // if (strlen_P(pstr) > MAX_STRLEN) return;
-  // char str[MAX_STRLEN];
-  // strcpy_P(str, pstr);
+  if (strlen_P(pstr) > MAX_STRLEN) return;
+  char str[MAX_STRLEN];
+  strcpy_P(str, pstr);
 
-  // switch (naginata_config.os) {
-  //   case NG_LINUX:
-  //     tap_code(KC_INTERNATIONAL_5);
-  //     send_unicode_string(str);
-  //     tap_code(KC_INTERNATIONAL_4);
-  //     break;
-  //   case NG_WIN:
-  //     send_unicode_string(str);
-  //     tap_code(KC_ENT);
-  //     break;
-  //   case NG_MAC: // Karabiner-Elementsが必要
-  //     tap_code(KC_LANGUAGE_2); // 未確定文字を確定する
-  //     wait_ms(10);
-  //     register_code(KC_LCTL); // Unicode HEX Inputへ切り替え
-  //     wait_ms(10);
-  //     tap_code(KC_F20);
-  //     wait_ms(10);
-  //     unregister_code(KC_LCTL);
-  //     wait_ms(10);
-  //     send_unicode_string(str);
-  //     wait_ms(10);
-  //     register_code(KC_LSFT); // 日本語入力へ切り替え。再変換にならないように「shift+かな」「かな」の2打にする。
-  //     wait_ms(10);
-  //     tap_code(KC_LANGUAGE_1);
-  //     wait_ms(10);
-  //     unregister_code(KC_LSFT);
-  //     wait_ms(10);
-  //     tap_code(KC_LANGUAGE_1);
-  //     break;
-  // }
+  switch (naginata_config.os) {
+    case NG_LINUX:
+      tap_code(KC_INTERNATIONAL_5);
+      send_unicode_string(str);
+      tap_code(KC_INTERNATIONAL_4);
+      break;
+    case NG_WIN:
+      send_unicode_string(str);
+      tap_code(KC_ENT);
+      break;
+    case NG_MAC: // Karabiner-Elementsが必要
+      tap_code(KC_LANGUAGE_2); // 未確定文字を確定する
+      wait_ms(10);
+      register_code(KC_LCTL); // Unicode HEX Inputへ切り替え
+      wait_ms(10);
+      tap_code(KC_F20);
+      wait_ms(10);
+      unregister_code(KC_LCTL);
+      wait_ms(10);
+      send_unicode_string(str);
+      wait_ms(10);
+      register_code(KC_LSFT); // 日本語入力へ切り替え。再変換にならないように「shift+かな」「かな」の2打にする。
+      wait_ms(10);
+      tap_code(KC_LANGUAGE_1);
+      wait_ms(10);
+      unregister_code(KC_LSFT);
+      wait_ms(10);
+      tap_code(KC_LANGUAGE_1);
+      break;
+  }
 }
 
 // modifierが押されたら薙刀式レイヤーをオフしてベースレイヤーに戻す

@@ -1,4 +1,4 @@
-# UNICODE_ENABLE = yes
+UNICODE_ENABLE = yes
 # CONSOLE_ENABLE = yes
 # COMMAND_ENABLE = yes
 
